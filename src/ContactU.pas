@@ -65,6 +65,7 @@ if DataM.Query2.Locate('profile_id', StrToInt(ProfileF.DBEdit1.Text), []) then
   DataM.Query1.Post;
   end;
   ShowMessage('Contact added successfully');
+  close;
   //commit the transaction
   DataM.Connection1.Commit;
 except
