@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Mask,
-  Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids;
+  Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids,System.DateUtils;
 
 type
   TProfileF = class(TForm)
@@ -39,7 +39,7 @@ type
     procedure btSaveClick(Sender: TObject);
     procedure btCloseClick(Sender: TObject);
     procedure dobEdChange(Sender: TObject);
-    function CalculateAge(ADateOfBirth: TDate):Integer;
+    function CalculateAge(BirthDate: TDateTime): Integer;
     procedure FormShow(Sender: TObject);
     procedure btaddconClick(Sender: TObject);
     procedure btdelconClick(Sender: TObject);
@@ -129,32 +129,23 @@ if Result then
   else
   showmessage(msg);
 end;
-
-function TProfileF.CalculateAge(ADateOfBirth: TDate): Integer;
-var
-  BirthYear, BirthMonth, BirthDay: Word;
-  CurrentYear, CurrentMonth, CurrentDay: Word;
-begin
-  DecodeDate(Date, CurrentYear, CurrentMonth, CurrentDay);
-  DecodeDate(ADateOfBirth, BirthYear, BirthMonth, BirthDay);
-  Result := CurrentYear - BirthYear;
-  if (CurrentMonth < BirthMonth) or ((CurrentMonth = BirthMonth) and (CurrentDay < BirthDay)) then
-    Dec(Result);
-end;
 procedure TProfileF.dobEdChange(Sender: TObject);
 var
-  DateOfBirth: TDate;
   Age: Integer;
+  BirthDate: TDateTime;
 begin
-// Try to convert the text in DBEditDOB to a TDate
-DateOfBirth := StrToDateDef(dobEd.Text, 0);
-if DateOfBirth <> 0 then
+  BirthDate := StrToDateDef(dobEd.Text, 0); // birth date
+  if BirthDate <> 0 then
   begin
-  // Calculate the age using the CalculateAge function
-  Age := CalculateAge(DateOfBirth);
-  // Display the calculated age
+  Age := CalculateAge(BirthDate);
   ageEd.Text := IntToStr(Age);
-  end
+  end;
+end;
+
+function TProfileF.CalculateAge(BirthDate: TDateTime): Integer;
+begin
+  //subtract the year of birth from the current year
+  Result := YearOf(Now) - YearOf(BirthDate);
 end;
 
 procedure TProfileF.FormShow(Sender: TObject);
