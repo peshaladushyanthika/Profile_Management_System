@@ -88,24 +88,33 @@ begin
 if edSearch.Text = '' then
 exit;
 //Search by name
-if DataM.Query1.Locate('name', edSearch.Text, [loCaseInsensitive]) then
-  begin
-  ShowMessage('Found by Name');
-  end
-//If not found by name, try to locate by NIC
-else if DataM.Query1.Locate('NIC', edSearch.Text, [loCaseInsensitive]) then
-  begin
-  ShowMessage('Found by NIC');
-  end
-//If not found by NIC, try to locate by contact
-else if DataM.Query1.Locate('contact', edSearch.Text, [loCaseInsensitive]) then
-  begin
-  ShowMessage('Found by Contact');
-  end
-else
-  begin
-  ShowMessage('Not found');
-  end;
+//if DataM.Query1.Locate('name', edSearch.Text, [loCaseInsensitive]) then
+//  begin
+//  ShowMessage('Found by Name');
+//  end
+////If not found by name, try to locate by NIC
+//else if DataM.Query1.Locate('NIC', edSearch.Text, [loCaseInsensitive]) then
+//  begin
+//  ShowMessage('Found by NIC');
+//  end
+////If not found by NIC, try to locate by contact
+//else if DataM.Query1.Locate('contact', edSearch.Text, [loCaseInsensitive]) then
+//  begin
+//  ShowMessage('Found by Contact');
+//  end
+//else
+//  begin
+//  ShowMessage('Not found');
+//  end;
+
+//search by name and contact
+with DataM.Query1 do
+begin
+  if Locate('name;contact', VarArrayOf(['edSearch.Text', 'edSearch.Text']), [loCaseInsensitive]) then
+    ShowMessage('Found the profile')
+  else
+    ShowMessage('Profile not found');
+end;
 end;
 
 procedure TMainF.ComboBoxChange(Sender: TObject);
