@@ -30,8 +30,6 @@ Follow these steps to set up and run the project locally.
 1. **Clone the Repository**:
     git clone  https://github.com/peshaladushyanthika/Profile_Management_System
     cd your-repo
-    ```
-
 2. **Open the Project**:
     - Open Delphi IDE.
     - Navigate to the cloned project folder and open the `.dproj` file.
